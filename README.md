@@ -111,7 +111,7 @@ And create store
 //store.js
 import * as redux from 'redux'
 import captain from "captain-redux"
-import initState from './state.js"
+import initState from './state.js'
 
 let { createStore } = captain(redux);
 
