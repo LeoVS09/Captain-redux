@@ -3,14 +3,17 @@ import * as actions from "./actions"
 import { async } from "./middleware"
 import define from "./define"
 
-const typer = (fields,types) => (...args) => {
-    let result = {};
+const typer = (f,t) => (...args) => {
+    let result = {}, fields = f.slice(), types = t.slice();
     args.forEach((argument) => {
         while(types.length && typeof argument != types.shift()) fields.shift();
         result[fields.shift()] = argument;
     });
     return result;
 };
+
+const filter = typer(["reducer",  "state",  "enhancer"],
+                     ["function", "object", "function"]);
 
 const copy = (target, source) => {
     for (let key in source)
@@ -20,25 +23,22 @@ const copy = (target, source) => {
 function captain(redux){
     copy(captain, redux);
 
-    captain.applyMiddleware = (...args) =>
-        redux.applyMiddleware(async,...args);
-
-    const filter = typer(["reducer",  "state",  "enhancer"],
-                         ["function", "object", "function"]);
-    captain.createStore = (reducer, initState, enhancer) => {
-        let { state } = filter(reducer,initState,enhancer);
+    captain.createStore = (...args) => {
+        let { reducer, state, enhancer } = filter(...args);
         if(!state) state = {};
         return redux.createStore(
-            reducerLeo, //! not support another reducers
+            reducerLeo(reducer),
             state,
-            redux.applyMiddleware(async) //! not support another middleware
+            enhancer ?
+                redux.compose(redux.applyMiddleware(async),enhancer):
+                redux.applyMiddleware(async)
         );
     };
-
-    copy(captain, actions);
-    captain.define = define;
+    
     return captain;
 }
+copy(captain, actions);
+captain.define = define;
 
 export default captain;
 

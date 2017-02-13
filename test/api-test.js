@@ -18,11 +18,12 @@ let initState = {
     }
 };
 
+
 describe("Captain", () => {
     describe("createStore", () => {
         let store;
         before(() => {
-            let { createStore } = captain(redux);
+            let { createStore} = captain(redux);
             store = createStore(initState);
         });
         it("should create store with initState and get state from store", () => {

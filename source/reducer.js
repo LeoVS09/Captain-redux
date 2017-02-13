@@ -6,17 +6,18 @@ const reducerWrapper = (reducer,initState) =>
         ...reducer(state,...args)
     });
 
-//!  not support for simple redux
-const reducerLeo = (state,action) => {
-    if(action.type != constans.REDUXLEO_ACTION)  return state;
-    if(action.path == "/") return reducerWrapper(action.do, {})(state, action.args);
-    let path = action.path.substr(1);
-    let index = path.indexOf("/");
-    let key = path.substr(0,index);
-    path = path.substr(index);
-    let result = {...state};
-    result[key] = reducerLeo(state[key], {...action, path});
-    return result;
-};
+
+const reducerLeo = (reducer = (state => state)) =>
+    function leo(state,action){
+        if(action.type != constans.REDUXLEO_ACTION)  return reducer(state,action);
+        if(action.path == "/") return reducerWrapper(action.do, {})(state, action.args);
+        let path = action.path.substr(1);
+        let index = path.indexOf("/");
+        let key = path.substr(0,index);
+        path = path.substr(index);
+        let result = {...state};
+        result[key] = leo(state[key], {...action, path});
+        return result;
+    };
 
 export default reducerLeo;
