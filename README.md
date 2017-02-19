@@ -170,7 +170,7 @@ And change action
  ); 
  ```
  
- It work, but we can do our state more logical. Let's just join todos and their count in one odject.
+ It work, but we can do our state more logical. Let's just join todos and their count in one ob ject.
 ```js
 //state.js
 
@@ -261,6 +261,87 @@ define(initState,{
     //date: setDate - it's not work, becouse date not object
     setDate // it action will be all state (default)
 });
+```
+
+
+###createAsyncAction
+Synchronous actions not enough in real app, but you can create asynchronous actions.
+```js
+//actions.js
+import { createAction, createAsyncAction } from "captain-redux"
+
+let changeState = createAction(state => ({ data: state.data + 1 });
+
+//asynchonous actions creating like synchronous, but first argument give dispatch function
+export const doSomthingAsync = createAsyncAction(({ dispatch },num) =>{
+    for(let i = 0; i < num; i++)
+        setTimeout(() => dispatch(changeState()), 500);
+});
+```
+
+And we can use this action like synchronous
+```js
+//index.js
+import redix from "redux"
+import captain from 'captain-redux'
+import { doSomethingAsync } from './actions.js'
+
+captain(redux);
+
+let store = captain.createStore({
+    data: 1
+});
+
+store.dispatch(doSomethingAsync(3));
+
+setTimeout(() => 
+    console.log(store.getState())
+    , 2000);
+//{
+//    data: 4
+//}
+```
+
+Also createAsyncAction give getState in first argument
+```js
+//actions.js
+import { createAsyncAction } from "captain-redux"
+
+//asynchonous actions creating like synchronous, but first argument give dispatch function
+export const doSomthingAsync = createAsyncAction(({ dispatch, getState },num) =>{
+    for(let i = 0; i < num; i++)
+        setTimeout(() => console.log(getState()), 500;
+});
+``` 
+
+And you can return promise in action in order to will continue out of action
+```js
+//actions.js
+import { createAsyncAction } from "captain-redux"
+
+//asynchonous actions creating like synchronous, but first argument give dispatch function
+export const doAsync = createAsyncAction(({ dispatch, getState },num) => new Promise(resolve => {
+    //do something... 
+    resolve();
+}));
+``` 
+
+```js
+//index.js
+import redix from "redux"
+import captain from 'captain-redux'
+import { doAsync } from './actions.js'
+
+captain(redux);
+
+let store = captain.createStore({
+    //...
+});
+
+store.dispatch(doAsync())
+    .then(() => console.log("successfully complated"));
+//...
+//successfully complated
 ```
 
 ##Migration guide

@@ -15,6 +15,8 @@ const typer = (f,t) => (...args) => {
 const filter = typer(["reducer",  "state",  "enhancer"],
                      ["function", "object", "function"]);
 
+const wiper = (filter, fun) => (...args) => fun(filter(...args));
+
 const copy = (target, source) => {
     for (let key in source)
         target[key] = source[key];
@@ -23,17 +25,18 @@ const copy = (target, source) => {
 function captain(redux){
     copy(captain, redux);
 
-    captain.createStore = (...args) => {
-        let { reducer, state, enhancer } = filter(...args);
-        if(!state) state = {};
-        return redux.createStore(
-            reducerLeo(reducer),
-            state,
-            enhancer ?
-                redux.compose(redux.applyMiddleware(async),enhancer):
-                redux.applyMiddleware(async)
-        );
-    };
+    captain.createStore = wiper(filter,
+        ({ reducer, state, enhancer }) => {
+            if(!state) state = {};
+            return redux.createStore(
+                reducerLeo(reducer),
+                state,
+                enhancer ?
+                    redux.compose(redux.applyMiddleware(async),enhancer):
+                    redux.applyMiddleware(async)
+            );
+        }
+    );
     
     return captain;
 }
