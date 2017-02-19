@@ -314,7 +314,7 @@ export const doSomthingAsync = createAsyncAction(({ dispatch, getState },num) =>
 });
 ``` 
 
-And you can return promise in action in order to will continue out of action
+And then you can return promise from your action to continue use it in current code context
 ```js
 //actions.js
 import { createAsyncAction } from "captain-redux"
