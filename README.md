@@ -1,12 +1,12 @@
 # Captain-redux
-it redux without reducers.
+It's redux without reducers.
 
-Captain most simple and fastest for developing store container based on redux.
+Captain is simplest and fastest for developing store container based on redux.
 
 ## How It Works
 
-This library allows you use redux without constans.
-Actions it's really actions, they do what you want and not need create functions which just return object acceptable for dispatching.
+This library allows you to use redux without constans.
+Actions it's really actions, they do what you want and not need to create functions which just return object acceptable for dispatching.
 
 ## Usage
 Let's take a look at a simple example.
@@ -32,7 +32,7 @@ let store = createStore({
 //in captain-redux all actions is functions which recive (state, ....args)
 //args - it all parameters passed during dispath
 let setCounter = createAction((state,counter) => ({ counter }));
-//action reurns only changed field
+//action returns only changed field
 
 store.dispatch(setCounter(3));
 
@@ -74,15 +74,15 @@ npm install --save captain-redux
 
 ## Tutorial
 
-Captain apply you control state of you app just write only business logic
+Captain allows you to control state of you app just by writing only business logic
 
-CreateAction is easy way change state of you app
+CreateAction is easiest way to change state of you app
 ```js
 //actions.js
 import { createAction } from "captain-redux"
 
-//action it function which recive state
-//...and parameters puttet when action will be performed 
+//action it is function which recive state
+//...and parameters put when action will be performed 
 export let addTodo = createAction((state, id, text) => ({
         todos: [...state.todos, { id, text }]
     })
@@ -119,7 +119,7 @@ export default let store = createStore(initState);
 ```
 
 It's all!
-We can change state our app
+We can change state of your app
 ```js
 //index.js
 import store from './store.js'
@@ -143,7 +143,7 @@ console.log(store.getState());
 //}
 ```
 
-But why we always write id of todo himself? Go add counter of todo in our state.
+But why we always write id of todo himself? Lets add counter of todo in your state.
 ```js
 //state.js
 
@@ -170,7 +170,7 @@ And change action
  ); 
  ```
  
- It work, but we can do our state more logical. Let's just join todos and their count in one ob ject.
+ It's work, but we can do your state more logical. Let's just merge todos and their count in one object.
 ```js
 //state.js
 
@@ -188,7 +188,7 @@ export default const initState = {
 };
 ```
  
- And tell our action where him need change state
+ And tell to your action where state must be changed
 ```js
   //actions.js
   import { createAction, define } from "captain-redux"
@@ -200,7 +200,7 @@ export default const initState = {
       })
   ); 
   
-  //we can tell state where action can change him
+  // Here we defines that
   define(initState,{
     data: addTodo
   });
@@ -234,8 +234,8 @@ export default const initState = {
  
 ## API
  
-###define
-Receive one object with names of fields repeating state and values is actions which need process this fields.
+###define(object)
+Receives object with keys indentical to your state's keys and values that are actions which processes this fields.
 Example
 ```js
 import {define} from 'captain-redux'
@@ -258,8 +258,8 @@ console.log(initState);
 define(initState,{   
     users: addUser,
     goods: [buy, sell],
-    //date: setDate - it's not work, becouse date not object
-    setDate // it action will be all state (default)
+    //date: setDate - it's not work, because date is not object
+    setDate // its action will be get all state (default)
 });
 ```
 
@@ -272,7 +272,7 @@ import { createAction, createAsyncAction } from "captain-redux"
 
 let changeState = createAction(state => ({ data: state.data + 1 });
 
-//asynchonous actions creating like synchronous, but first argument give dispatch function
+//asynchonous actions are creating like synchronous, but first argument gives a dispatch to your function
 export const doSomthingAsync = createAsyncAction(({ dispatch },num) =>{
     for(let i = 0; i < num; i++)
         setTimeout(() => dispatch(changeState()), 500);
@@ -302,24 +302,24 @@ setTimeout(() =>
 //}
 ```
 
-Also createAsyncAction give getState in first argument
+Also createAsyncAction recieves <b>getState</b> in first passed parameter
 ```js
 //actions.js
 import { createAsyncAction } from "captain-redux"
 
-//asynchonous actions creating like synchronous, but first argument give dispatch function
+//asynchonous actions are creating like synchronous, but first argument gives a dispatch to your function
 export const doSomthingAsync = createAsyncAction(({ dispatch, getState },num) =>{
     for(let i = 0; i < num; i++)
         setTimeout(() => console.log(getState()), 500;
 });
 ``` 
 
-And then you can return promise from your action to continue use it in current code context
+And then you can return a promise from your action to continue use it in current code context
 ```js
 //actions.js
 import { createAsyncAction } from "captain-redux"
 
-//asynchonous actions creating like synchronous, but first argument give dispatch function
+// asynchonous actions are creating like synchronous, but first argument gives a dispatch to your function
 export const doAsync = createAsyncAction(({ dispatch, getState },num) => new Promise(resolve => {
     //do something... 
     resolve();
@@ -339,9 +339,9 @@ let store = captain.createStore({
 });
 
 store.dispatch(doAsync())
-    .then(() => console.log("successfully complated"));
+    .then(() => console.log("successfully completed"));
 //...
-//successfully complated
+//successfully completed
 ```
 
 ##Migration guide
