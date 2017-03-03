@@ -95,7 +95,7 @@ Let's write default state
 ```js
 //state.js
 
-export default const initState = {
+export default initState = {
     nameApp: "Todo list",
     todos: [
         {
@@ -115,7 +115,7 @@ import initState from './state.js'
 
 let { createStore } = captain(redux);
 
-export default let store = createStore(initState);
+export default store = createStore(initState);
 ```
 
 It's all!
@@ -147,7 +147,7 @@ But why we always write id of todo himself? Lets add counter of todo in your sta
 ```js
 //state.js
 
-export default const initState = {
+export default initState = {
     nameApp: "Todo list",
     countOfTodos: 1,
     todos: [
@@ -164,8 +164,8 @@ And change action
  //actions.js
  //...
  export let addTodo = createAction((state, text) => ({
-         countOfTodos: state.countOfTodos+1
-         todos: [...state.todos, { state.countOfTodos+1, text }]
+         countOfTodos: state.countOfTodos+1,
+         todos: [...state.todos, { countOfTodos : state.countOfTodos + 1, text }]
      })
  ); 
  ```
@@ -174,7 +174,7 @@ And change action
 ```js
 //state.js
 
-export default const initState = {
+export default initState = {
      nameApp: "Todo list",
      data: {
         countOfTodos: 1,
@@ -195,8 +195,8 @@ export default const initState = {
   import initState from "state.js"
   
   let addTodo = createAction((state, text) => ({
-          countOfTodos: state.countOfTodos+1
-          todos: [...state.todos, { state.countOfTodos+1, text }]
+          countOfTodos: state.countOfTodos+1,
+          todos: [...state.todos, { countOfTodos : state.countOfTodos+1, text }]
       })
   ); 
   
@@ -270,7 +270,7 @@ Synchronous actions not enough in real app, but you can create asynchronous acti
 //actions.js
 import { createAction, createAsyncAction } from "captain-redux"
 
-let changeState = createAction(state => ({ data: state.data + 1 });
+let changeState = createAction(state => ({ data: state.data + 1 }));
 
 //asynchonous actions are creating like synchronous, but first argument gives a dispatch to your function
 export const doSomthingAsync = createAsyncAction(({ dispatch },num) =>{
@@ -310,7 +310,7 @@ import { createAsyncAction } from "captain-redux"
 //asynchonous actions are creating like synchronous, but first argument gives a dispatch to your function
 export const doSomthingAsync = createAsyncAction(({ dispatch, getState },num) =>{
     for(let i = 0; i < num; i++)
-        setTimeout(() => console.log(getState()), 500;
+        setTimeout(() => console.log(getState()), 500);
 });
 ``` 
 
