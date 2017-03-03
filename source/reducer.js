@@ -1,4 +1,4 @@
-import constans from "./constans.json";
+import constans from "./constans";
 
 const reducerWrapper = (reducer,initState) =>
     (state = initState, args) => ({

@@ -1,6 +1,6 @@
 {
   "name": "captain-redux",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Easy and convenient redux",
   "main": "./distribution/index.js",
   "scripts": {

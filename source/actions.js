@@ -1,4 +1,4 @@
-import constans from "./constans.json";
+import constans from "./constans";
 
 const createActionWrapper =
     (type) => (action) => {
